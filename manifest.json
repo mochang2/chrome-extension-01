@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "My Gitlab Pipeline Variable Automation",
+    "version": "1.0.0",
+    "description": "A simple extension to automate the process of adding pipeline variables to Gitlab CI/CD pipelines",
+    "icons": {
+        "16": "assets/icon-16.png",
+        "32": "assets/icon-32.png",
+        "48": "assets/icon-48.png",
+        "128": "assets/icon-128.png"
+    },
+    "action": {
+        "default_popup": "index.html"
+    },
+    "permissions": ["storage", "tabs", "activeTab", "scripting"],
+    "host_permissions": ["https://*/"]
+}
