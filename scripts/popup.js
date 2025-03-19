@@ -62,24 +62,27 @@ async function submit() {
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
             args: [inputs],
-            func: (variables) => {
-                const inputList = document.querySelector("ul.ci-variable-list");
-                let emptyLastInput = inputList.querySelector("li");
+            func: async (variables) => {
+                const sleep = () => {
+                    return new Promise((resolve) => {
+                        setTimeout(resolve, 100)
+                    })
+                }
 
                 for (const [key, value] of variables) {
-                    const keyInputs = document.querySelectorAll(
-                        ".js-ci-variable-input-key.ci-variable-body-item.qa-ci-variable-input-key.form-control"
-                    );
+                    const keyInputs = document.querySelectorAll('[placeholder="Input variable key"]');
                     const lastKeyInput = keyInputs[keyInputs.length - 1];
-                    const valueInputs = document.querySelectorAll(
-                        ".form-control.js-ci-variable-input-value.js-secret-value.qa-ci-variable-input-value"
-                    );
+                    const valueInputs = document.querySelectorAll('[placeholder="Input variable value"]');
                     const lastValueInput = valueInputs[valueInputs.length - 1];
 
-                    emptyLastInput = emptyLastInput.cloneNode(true);
                     lastKeyInput.value = key;
                     lastValueInput.value = value;
-                    inputList.appendChild(emptyLastInput);
+
+                    const eventMakingNewInput = new Event("change");
+                    lastKeyInput.dispatchEvent(eventMakingNewInput);
+                    lastValueInput.dispatchEvent(eventMakingNewInput);
+
+                    await sleep();
                 }
             },
         });
